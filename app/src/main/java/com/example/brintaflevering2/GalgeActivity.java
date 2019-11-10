@@ -4,23 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SharedMemory;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.jinatonic.confetti.CommonConfetti;
-
-import java.util.ArrayList;
 
 public class GalgeActivity extends AppCompatActivity implements View.OnClickListener {
     private Galgelogik logik = new Galgelogik();
@@ -69,6 +61,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         lossCounter = preferences.getInt("Losses", 0);
         winsTextView.setText("Wins = " + winCounter);
         lossesTextView.setText("Losses = " + lossCounter);
+        //updateAfterGame();
 
     }
 
@@ -81,7 +74,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                         case KeyEvent.KEYCODE_ENTER:
                             logik.gætBogstav(gætText.getText().toString());
                             updateTextViews();
-                            statusText();
+                            guessLetter();
                             updateBillede();
                             return true;
                         default:
@@ -99,7 +92,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
             case R.id.gætButton:
                 logik.gætBogstav(gætText.getText().toString());
                 updateTextViews();
-                statusText();
+                guessLetter();
                 updateBillede();
                 break;
 
@@ -125,33 +118,35 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         brugteBogstaverTextView.setText("Brugte bogstaver: " + currentWord);
     }
 
-    private void statusText() {
+    private void guessLetter() {
         if (!logik.erSidsteBogstavKorrekt() && logik.getBrugteBogstaver().size() < 6) {
             Toast.makeText(this,"Du har brugt " + logik.getBrugteBogstaver().size() +
                     " gæt. " + (6-logik.getBrugteBogstaver().size()) + " tilbage." ,Toast.LENGTH_SHORT).show();
         } else if (logik.erSpilletTabt()) {
-            Toast.makeText(this,"Du har tabt!", Toast.LENGTH_LONG).show();
-            resetButton.setVisibility(View.VISIBLE);
+            //Toast.makeText(this,"Du har tabt!", Toast.LENGTH_LONG).show();
             lossCounter++;
-            lossesTextView.setText("Losses = " + lossCounter);
+            updateAfterGame();
             currentOrdTextView.setText(logik.getOrdet());
-            gætButton.setVisibility(View.INVISIBLE);
-            gætText.setVisibility(View.INVISIBLE);
-            preferences.edit().putInt("Losses",lossCounter).apply();
             Intent loserIntent = new Intent(this,LoserActivity.class);
             loserIntent.putExtra("ORDET", logik.getOrdet());
             startActivity(loserIntent);
         } else if (logik.erSpilletVundet()) {
-            Toast.makeText(this,"Du har vundet!", Toast.LENGTH_LONG).show();
-            resetButton.setVisibility(View.VISIBLE);
+            //Toast.makeText(this,"Du har vundet!", Toast.LENGTH_LONG).show();
             winCounter++;
-            winsTextView.setText("Wins = " + winCounter);
-            gætButton.setVisibility(View.INVISIBLE);
-            gætText.setVisibility(View.INVISIBLE);
-            preferences.edit().putInt("Wins",winCounter).apply();
             Intent winnerIntent = new Intent(this,WinnerActivity.class);
             startActivity(winnerIntent);
+            updateAfterGame();
         }
+    }
+
+    private void updateAfterGame() {
+        resetButton.setVisibility(View.VISIBLE);
+        gætButton.setVisibility(View.INVISIBLE);
+        gætText.setVisibility(View.INVISIBLE);
+        winsTextView.setText("Wins = " + winCounter);
+        lossesTextView.setText("Losses = " + lossCounter);
+        preferences.edit().putInt("Wins",winCounter).apply();
+        preferences.edit().putInt("Losses",lossCounter).apply();
     }
 
     public void updateBillede() {

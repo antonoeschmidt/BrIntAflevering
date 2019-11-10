@@ -34,7 +34,7 @@ public class WinnerActivity extends AppCompatActivity implements View.OnClickLis
         playAgainButton.setOnClickListener(this);
         confettiButton.setOnClickListener(this);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        winnerTextView2.setText("Du er nu oppe på" + preferences.getInt("Wins", 0) +" sejre");
+        winnerTextView2.setText("Du er nu oppe på " + preferences.getInt("Wins", 0) +" sejre");
         container = findViewById(R.id.parentView);
 
     }
