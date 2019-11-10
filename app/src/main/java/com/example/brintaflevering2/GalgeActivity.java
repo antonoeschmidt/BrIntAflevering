@@ -47,7 +47,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         winsTextView = findViewById(R.id.winsTextView);
         lossesTextView = findViewById(R.id.lossesTextView);
         billede = findViewById(R.id.imageView);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this); // i et fragment, skal der stå "getActivity()" i stedet for "this"
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         winCounter = preferences.getInt("Wins", 0);
         lossCounter = preferences.getInt("Losses", 0);
         winsTextView.setText("Wins = "+ winCounter);
@@ -94,6 +94,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                 resetButton.setVisibility(View.INVISIBLE);
                 gætButton.setVisibility(View.VISIBLE);
                 gætText.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
