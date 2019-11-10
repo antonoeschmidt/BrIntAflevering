@@ -2,18 +2,23 @@ package com.example.brintaflevering2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SharedMemory;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.jinatonic.confetti.CommonConfetti;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     private ImageView billede;
     private int winCounter, lossCounter;
     SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,16 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         lossesTextView.setText("Losses = "+ lossCounter);
 
         initOnKeyListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        winCounter = preferences.getInt("Wins", 0);
+        lossCounter = preferences.getInt("Losses", 0);
+        winsTextView.setText("Wins = " + winCounter);
+        lossesTextView.setText("Losses = " + lossCounter);
+
     }
 
     private void initOnKeyListener() {
@@ -122,6 +138,9 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
             gætButton.setVisibility(View.INVISIBLE);
             gætText.setVisibility(View.INVISIBLE);
             preferences.edit().putInt("Losses",lossCounter).apply();
+            Intent loserIntent = new Intent(this,LoserActivity.class);
+            loserIntent.putExtra("ORDET", logik.getOrdet());
+            startActivity(loserIntent);
         } else if (logik.erSpilletVundet()) {
             Toast.makeText(this,"Du har vundet!", Toast.LENGTH_LONG).show();
             resetButton.setVisibility(View.VISIBLE);
@@ -130,6 +149,8 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
             gætButton.setVisibility(View.INVISIBLE);
             gætText.setVisibility(View.INVISIBLE);
             preferences.edit().putInt("Wins",winCounter).apply();
+            Intent winnerIntent = new Intent(this,WinnerActivity.class);
+            startActivity(winnerIntent);
         }
     }
 
