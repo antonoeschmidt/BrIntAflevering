@@ -44,6 +44,7 @@ public class WinnerActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.resetScoresButton:
                 preferences.edit().putInt("Wins",0).apply();
+                preferences.edit().putInt("Losses",0).apply();
                 winnerTextView2.setText("Score nulstillet");
                 break;
             case R.id.playAgainButton:

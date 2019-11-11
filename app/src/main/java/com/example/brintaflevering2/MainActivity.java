@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         galgeButton = findViewById(R.id.galgeButton);
         galgeButton.setOnClickListener(this);
 
-
     }
 
     @Override
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this,GalgeActivity.class);
                 startActivity(intent);
                 break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }

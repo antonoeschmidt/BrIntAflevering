@@ -39,7 +39,8 @@ public class LoserActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.resetScoresButtonLoser:
-                preferences.edit().putInt("Losses", 0).apply();
+                preferences.edit().putInt("Wins",0).apply();
+                preferences.edit().putInt("Losses",0).apply();
                 loserTextView2.setText("Score nulstillet");
                 break;
             case R.id.playAgainButtonLoser:
