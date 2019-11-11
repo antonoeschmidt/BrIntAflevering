@@ -16,7 +16,7 @@ public class WordListActivity extends AppCompatActivity {
 
     //Kode taget fra Jakob Nordfalk
     //Er ikke taget i brug, da koden ikke virker endnu
-    //Kan laves til næste implementation
+    //Skal bruges til næste implementation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
