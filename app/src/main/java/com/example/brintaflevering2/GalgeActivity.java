@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GalgeActivity extends AppCompatActivity implements View.OnClickListener {
-    private Galgelogik logik = new Galgelogik();
     private Button gætButton, resetButton, hentOrdFraDrButton;
     private EditText gætText;
     private TextView currentOrdTextView, rigtigeOrdTextView,
@@ -42,9 +41,9 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         gætText = findViewById(R.id.gætText);
         brugteBogstaverTextView = findViewById(R.id.brugteBogstaverTextView);
         currentOrdTextView = findViewById(R.id.textView);
-        currentOrdTextView.setText(logik.getSynligtOrd());
+        currentOrdTextView.setText(MainActivity.logik.getSynligtOrd());
         rigtigeOrdTextView = findViewById(R.id.rigtigeOrdTextView);
-        rigtigeOrdTextView.setText(logik.getOrdet());
+        rigtigeOrdTextView.setText(MainActivity.logik.getOrdet());
 
         //Udkommenter nedenstående for testing
         //rigtigeOrdTextView.setVisibility(View.INVISIBLE);
@@ -59,6 +58,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         lossesTextView.setText("Nederlag = "+ lossCounter);
 
         initOnKeyListener();
+        resetGame();
     }
 
     @Override
@@ -68,7 +68,6 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         lossCounter = preferences.getInt("Losses", 0);
         winsTextView.setText("Sejre = " + winCounter);
         lossesTextView.setText("Nederlag = " + lossCounter);
-        //updateGame();
 
     }
 
@@ -79,7 +78,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
-                            logik.gætBogstav(gætText.getText().toString());
+                            MainActivity.logik.gætBogstav(gætText.getText().toString());
                             updateTextViews();
                             guessLetter();
                             updatePicture();
@@ -97,7 +96,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.gætButton:
-                logik.gætBogstav(gætText.getText().toString());
+                MainActivity.logik.gætBogstav(gætText.getText().toString());
                 updateTextViews();
                 guessLetter();
                 updatePicture();
@@ -112,7 +111,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     protected Object doInBackground(Object... arg0) {
                         try {
-                            logik.hentOrdFraDr();
+                            MainActivity.logik.hentOrdFraDr();
 
                             return "Ordene blev korrekt hentet fra DR's server";
                         } catch (Exception e) {
@@ -134,7 +133,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void resetGame() {
-        logik.nulstil();
+        MainActivity.logik.nulstil();
         updatePicture();
         updateTextViews();
         resetButton.setVisibility(View.INVISIBLE);
@@ -144,11 +143,11 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateTextViews() {
-        currentOrdTextView.setText(logik.getSynligtOrd());
-        rigtigeOrdTextView.setText(logik.getOrdet());
+        currentOrdTextView.setText(MainActivity.logik.getSynligtOrd());
+        rigtigeOrdTextView.setText(MainActivity.logik.getOrdet());
         String currentWord = "";
         for (String bogstav:
-             logik.getBrugteBogstaver()) {
+             MainActivity.logik.getBrugteBogstaver()) {
             currentWord = currentWord + bogstav + " ";
         }
         brugteBogstaverTextView.setText("Brugte bogstaver: " + currentWord);
@@ -156,18 +155,18 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void guessLetter() {
-        if (!logik.erSidsteBogstavKorrekt() && logik.getAntalForkerteBogstaver() < 6) {
-            Toast.makeText(this,"Du har mistet " + logik.getAntalForkerteBogstaver() +
-                    " liv. " + (6-logik.getAntalForkerteBogstaver()) + " tilbage." ,Toast.LENGTH_SHORT).show();
-        } else if (logik.erSpilletTabt()) {
+        if (!MainActivity.logik.erSidsteBogstavKorrekt() && MainActivity.logik.getAntalForkerteBogstaver() < 6) {
+            Toast.makeText(this,"Du har mistet " + MainActivity.logik.getAntalForkerteBogstaver() +
+                    " liv. " + (6-MainActivity.logik.getAntalForkerteBogstaver()) + " tilbage." ,Toast.LENGTH_SHORT).show();
+        } else if (MainActivity.logik.erSpilletTabt()) {
             //Toast.makeText(this,"Du har tabt!", Toast.LENGTH_LONG).show();
             lossCounter++;
             updateGame();
-            currentOrdTextView.setText(logik.getOrdet());
+            currentOrdTextView.setText(MainActivity.logik.getOrdet());
             Intent loserIntent = new Intent(this,LoserActivity.class);
-            loserIntent.putExtra("ORDET", logik.getOrdet());
+            loserIntent.putExtra("ORDET", MainActivity.logik.getOrdet());
             startActivity(loserIntent);
-        } else if (logik.erSpilletVundet()) {
+        } else if (MainActivity.logik.erSpilletVundet()) {
             //Toast.makeText(this,"Du har vundet!", Toast.LENGTH_LONG).show();
             winCounter++;
             updateGame();
@@ -188,7 +187,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void updatePicture() {
-        switch (logik.getAntalForkerteBogstaver()) {
+        switch (MainActivity.logik.getAntalForkerteBogstaver()) {
             case 0:
                 billede.setImageResource(R.drawable.galge);
                 break;
