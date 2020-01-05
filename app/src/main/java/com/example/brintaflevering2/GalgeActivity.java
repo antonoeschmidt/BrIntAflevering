@@ -24,7 +24,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
             brugteBogstaverTextView, winsTextView, lossesTextView;
     private ImageView billede;
     private int winCounter, lossCounter;
-    SharedPreferences preferences;
+    public SharedPreferences preferences;
 
 
     @Override
@@ -47,7 +47,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         rigtigeOrdTextView.setText(logik.getOrdet());
 
         //Udkommenter nedenstående for testing
-        rigtigeOrdTextView.setVisibility(View.INVISIBLE);
+        //rigtigeOrdTextView.setVisibility(View.INVISIBLE);
 
         winsTextView = findViewById(R.id.winsTextView);
         lossesTextView = findViewById(R.id.lossesTextView);

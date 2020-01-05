@@ -16,18 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Skal ikke bruges nu
+
     <Button
         android:id="@+id/wordListButton"
-        android:layout_width="95dp"
-        android:layout_height="48dp"
-        android:text="Se ord"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:text="Se ord i spil"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.702" />
-        -->
+
 
     <TextView
         android:id="@+id/textView2"

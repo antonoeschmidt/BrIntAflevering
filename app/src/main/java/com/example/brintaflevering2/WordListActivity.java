@@ -8,42 +8,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class WordListActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
+public class WordListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-
-    //Kode taget fra Jakob Nordfalk
-    //Er ikke taget i brug, da koden ikke virker endnu
-    //Skal bruges til næste implementation
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recyclerView = new RecyclerView(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
-        setContentView(recyclerView);
+        String ord[] = new String[Galgelogik.muligeOrd.size()];
+        for (int i = 0; i < ord.length; i++) {
+            ord[i] = Galgelogik.muligeOrd.get(i);
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ord);
+
+        ListView listView = new ListView(this);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(arrayAdapter);
+
+        setContentView(listView);
+
     }
 
-    RecyclerView.Adapter adapter = new RecyclerView.Adapter() {
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = getLayoutInflater().inflate(R.layout.activity_word_list, parent, false);
-            return new RecyclerView.ViewHolder(itemView) {};
-        }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder vh, int position) {
-            TextView overskrift = vh.itemView.findViewById(R.id.textViewListElement);
-            overskrift.setText(Galgelogik.muligeOrd.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return Galgelogik.muligeOrd.size();
-        }
-    };
+    }
 }

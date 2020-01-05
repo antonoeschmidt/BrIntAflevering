@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button galgeButton;
+    Button galgeButton, wordListButton;
     TextView textView1, textView2;
 
     @Override
@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView2 = findViewById(R.id.textView2);
         galgeButton = findViewById(R.id.galgeButton);
         galgeButton.setOnClickListener(this);
+        wordListButton = findViewById(R.id.wordListButton);
+        wordListButton.setOnClickListener(this);
 
     }
 
@@ -33,7 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this,GalgeActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.wordListButton:
+                Intent intentWordList = new Intent(this, WordListActivity.class);
+                startActivity(intentWordList);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
