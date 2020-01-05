@@ -2,9 +2,9 @@ package com.example.brintaflevering2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -53,6 +53,9 @@ public class WinnerActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.confettiButton:
                 CommonConfetti.rainingConfetti(container, new int[] { Color.rgb(212, 175, 55) })
                         .infinite();
+                MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.winningsound);
+                mPlayer.start();
+
                 break;
 
         }
