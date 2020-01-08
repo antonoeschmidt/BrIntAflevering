@@ -53,7 +53,7 @@ public class WinnerActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.confettiButton:
                 CommonConfetti.rainingConfetti(container, new int[] { Color.rgb(212, 175, 55) })
                         .infinite();
-                MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.winningsound);
+                MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.applause7);
                 mPlayer.start();
 
                 break;

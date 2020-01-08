@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     private int winCounter, lossCounter;
     public SharedPreferences preferences;
     private ProgressDialog progressDialog;
+    private MediaPlayer mPlayer;
 
 
     @Override
@@ -56,6 +58,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Henter ord fra DR");
+        mPlayer = MediaPlayer.create(this, R.raw.winningsound);
         winCounter = preferences.getInt("Wins", 0);
         lossCounter = preferences.getInt("Losses", 0);
         winsTextView.setText("Sejre = "+ winCounter);
@@ -177,6 +180,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
             //Toast.makeText(this,"Du har vundet!", Toast.LENGTH_LONG).show();
             winCounter++;
             updateGame();
+            mPlayer.start();
             Intent winnerIntent = new Intent(this,WinnerActivity.class);
             startActivity(winnerIntent);
         }
