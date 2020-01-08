@@ -2,6 +2,7 @@ package com.example.brintaflevering2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
     private ImageView billede;
     private int winCounter, lossCounter;
     public SharedPreferences preferences;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -46,12 +48,14 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
         rigtigeOrdTextView.setText(MainActivity.logik.getOrdet());
 
         //Udkommenter nedenstående for testing
-        //rigtigeOrdTextView.setVisibility(View.INVISIBLE);
+        rigtigeOrdTextView.setVisibility(View.INVISIBLE);
 
         winsTextView = findViewById(R.id.winsTextView);
         lossesTextView = findViewById(R.id.lossesTextView);
         billede = findViewById(R.id.imageView);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Henter ord fra DR");
         winCounter = preferences.getInt("Wins", 0);
         lossCounter = preferences.getInt("Losses", 0);
         winsTextView.setText("Sejre = "+ winCounter);
@@ -106,6 +110,7 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                 resetGame();
                 break;
             case R.id.hentOrdFraDrButton:
+                progressDialog.show();
                 currentOrdTextView.setText("Henter ord fra DR. Vent venligst..");
                 new AsyncTask() {
                     @Override
@@ -124,7 +129,9 @@ public class GalgeActivity extends AppCompatActivity implements View.OnClickList
                     protected void onPostExecute(Object resultat) {
                         Log.d("Status :", "Ord blev hentet");
                         Toast.makeText(GalgeActivity.this,"Ord blev hentet - du kan nu spille!", Toast.LENGTH_SHORT).show();
+                        progressDialog.hide();
                         resetGame();
+
                     }
                 }.execute();
                 break;
